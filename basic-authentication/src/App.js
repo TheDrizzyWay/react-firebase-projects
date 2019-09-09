@@ -1,5 +1,7 @@
-import React from 'react';
+import React, { useEffect } from 'react';
+import { connect } from 'react-redux';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+import { withFirebase } from './components/Firebase';
 import Navigation from './components/Navigation';
 import LandingPage from './components/Landing';
 import SignUpPage from './components/SignUp';
@@ -9,11 +11,19 @@ import HomePage from './components/Home';
 import AccountPage from './components/Account';
 import AdminPage from './components/Admin';
 import { routes } from './constants/routes';
+import { toggleAuth } from './actions';
 
-const App = () => (
+const App = ({ firebase, toggleAuth, auth }) => {
+  useEffect(() => {
+    firebase.auth.onAuthStateChanged(authUser => {
+      toggleAuth(authUser);
+    });
+  }, [firebase.auth, toggleAuth]);
+
+  return (
   <Router>
     <div>
-      <Navigation />
+      <Navigation auth={auth} />
       <hr />
       <Switch>
         <Route exact path={routes.LANDING} component={LandingPage} />
@@ -27,5 +37,10 @@ const App = () => (
     </div>
   </Router>
   );
+};
 
-export default App;
+const mapStateToProps = state => ({
+   auth: state.auth.authUser
+});
+
+export default connect(mapStateToProps, { toggleAuth })(withFirebase(App));
