@@ -23,8 +23,8 @@ const SignUpFormBase = ({ firebase, history }) => {
         try {
             await firebase.emailSignUp(email, passwordOne);
             setUser(initialState);
-            history.push(routes.HOME)
-        } catch (error)  {
+            history.push(routes.HOME);
+        } catch(error) {
             setUser({ ...user, error: error.message });
         }
     };
