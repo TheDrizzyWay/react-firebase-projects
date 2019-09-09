@@ -1,4 +1,5 @@
 import app from 'firebase/app';
+import 'firebase/auth';
 
 const firebaseConfig = {
     apiKey: process.env.REACT_APP_API_KEY,
@@ -11,10 +12,30 @@ const firebaseConfig = {
   };
 
   // const config = process.env.NODE_ENV === 'production' ? prodConfig : devConfig;
-
   class Firebase {
       constructor() {
           app.initializeApp(firebaseConfig);
+          this.auth = app.auth();
+      }
+
+      emailSignUp(email, password) {
+        this.auth.createUserWithEmailAndPassword(email, password);
+      }
+
+      emailSignIn(email, password) {
+        this.auth.signInWithEmailAndPassword(email, password);
+      }
+
+      signOut() {
+        this.auth.signOut();
+      }
+
+      resetPassword(email) {
+        this.auth.sendPasswordResetEmail(email);
+      }
+
+      updatePassword(password) {
+        this.auth.currentUser.updatePassword(password);
       }
   }
 
