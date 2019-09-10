@@ -3,6 +3,7 @@ import { withRouter } from 'react-router-dom';
 import { SignUpLink } from '../SignUp';
 import { withFirebase } from '../Firebase';
 import { routes } from '../../constants/routes';
+import { PasswordForgetLink } from '../PasswordForget';
 
 const initialState = {
     email: '',
@@ -61,6 +62,7 @@ const SignInPage = () => (
     <div>
     <h1>SignIn</h1>
     <SignInForm />
+    <PasswordForgetLink />
     <SignUpLink /> 
     </div>
 );

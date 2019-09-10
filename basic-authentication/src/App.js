@@ -26,6 +26,7 @@ const App = ({ firebase, toggleAuth, auth }) => {
       <Navigation auth={auth} />
       <hr />
       <Switch>
+        // Todo: create a higher order component that checks auth value from store and passes auth props to routes
         <Route exact path={routes.LANDING} component={LandingPage} />
         <Route path={routes.SIGN_UP} component={SignUpPage} />
         <Route path={routes.SIGN_IN} component={SignInPage} />
