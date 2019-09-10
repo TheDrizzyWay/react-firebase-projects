@@ -56,12 +56,39 @@ const SignInFormBase = ({ firebase, history }) => {
     );
 };
 
+const SignInGoogleBase = ({ firebase, history }) => {
+    const [google, setGoogle] = useState({ error: null });
+    const submitHandler = async (e) => {
+        e.preventDefault();
+        try {
+            const authUser = await firebase.googleSignIn();
+            await firebase.user(authUser.user.uid).set({
+                username: authUser.user.displayName,
+                email: authUser.user.email
+            });
+            setGoogle({ error: null });
+            history.push(routes.HOME);
+        } catch(error) {
+            setGoogle({ error });
+        }
+      };
+
+    return (
+    <form onSubmit={submitHandler}>
+        <button type="submit">Sign In with Google</button>
+        {google.error && <p>{google.error.message}</p>}
+    </form>
+    );
+};
+
 const SignInForm = withRouter(withFirebase(SignInFormBase));
+const SignInGoogle = withRouter(withFirebase(SignInGoogleBase));
 
 const SignInPage = () => (
     <div>
     <h1>SignIn</h1>
     <SignInForm />
+    <SignInGoogle />
     <PasswordForgetLink />
     <SignUpLink /> 
     </div>

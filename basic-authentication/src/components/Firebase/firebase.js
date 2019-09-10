@@ -18,6 +18,8 @@ const firebaseConfig = {
           app.initializeApp(firebaseConfig);
           this.auth = app.auth();
           this.db = app.database();
+          this.googleProvider = new app.auth.GoogleAuthProvider();
+          // this.facebookProvider = new app.auth.FacebookAuthProvider();
       }
 
       emailSignUp(email, password) {
@@ -40,9 +42,14 @@ const firebaseConfig = {
         return this.auth.currentUser.updatePassword(password);
       }
 
+      googleSignIn() {
+        return this.auth.signInWithPopup(this.googleProvider);
+      }
+
       user(uid) {
         return this.db.ref(`users/${uid}`);
-      } 
+      }
+
       users() { 
         return this.db.ref('users'); 
       }
