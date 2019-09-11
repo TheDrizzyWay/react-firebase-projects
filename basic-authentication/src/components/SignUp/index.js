@@ -24,8 +24,10 @@ const SignUpFormBase = ({ firebase, history }) => {
             const authUser = await firebase.emailSignUp(email, passwordOne);
             await firebase.user(authUser.user.uid).set({
                 username,
-                email
+                email,
+                createdAt: firebase.serverValue.TIMESTAMP
             });
+            await firebase.emailVerification();
             setUser(initialState);
             history.push(routes.HOME);
         } catch(error) {

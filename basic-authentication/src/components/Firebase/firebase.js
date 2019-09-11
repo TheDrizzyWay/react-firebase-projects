@@ -42,6 +42,12 @@ const firebaseConfig = {
         return this.auth.currentUser.updatePassword(password);
       }
 
+      emailVerification() {
+        return this.auth.currentUser.sendEmailVerification({
+          url: process.env.REACT_APP_CONFIRMATION_EMAIL_REDIRECT
+        });
+      }
+
       googleSignIn() {
         return this.auth.signInWithPopup(this.googleProvider);
       }
